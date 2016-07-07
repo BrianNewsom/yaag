@@ -11,6 +11,7 @@ type ApiCall struct {
 	RequestHeader        map[string]string
 	CommonRequestHeaders map[string]string
 	ResponseHeader       map[string]string
+	ResponseAnnotations  []YaagAnnotationHeader
 	RequestUrlParams     map[string]string
 
 	RequestBody  string

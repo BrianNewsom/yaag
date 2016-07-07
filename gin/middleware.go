@@ -5,9 +5,9 @@ import (
 	"net/http/httptest"
 	"strings"
 
-	"github.com/betacraft/yaag/middleware"
-	"github.com/betacraft/yaag/yaag"
-	"github.com/betacraft/yaag/yaag/models"
+	"github.com/briannewsom/yaag/middleware"
+	"github.com/briannewsom/yaag/yaag"
+	"github.com/briannewsom/yaag/yaag/models"
 	"github.com/gin-gonic/gin"
 )
 

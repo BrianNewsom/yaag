@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/betacraft/yaag/middleware"
-	"github.com/betacraft/yaag/yaag"
+	"github.com/briannewsom/yaag/middleware"
+	"github.com/briannewsom/yaag/yaag"
 	"github.com/gorilla/mux"
 	"io/ioutil"
 	"net/http"

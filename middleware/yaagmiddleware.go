@@ -16,8 +16,9 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/betacraft/yaag/yaag"
-	"github.com/betacraft/yaag/yaag/models"
+	"github.com/briannewsom/yaag/annotations"
+	"github.com/briannewsom/yaag/yaag"
+	"github.com/briannewsom/yaag/yaag/models"
 )
 
 /* 32 MB in memory max */
@@ -73,6 +74,7 @@ func HandleFunc(next func(http.ResponseWriter, *http.Request)) func(http.Respons
 func Before(apiCall *models.ApiCall, req *http.Request) {
 	apiCall.RequestHeader = ReadHeaders(req)
 	apiCall.RequestUrlParams = ReadQueryParams(req)
+
 	val, ok := apiCall.RequestHeader["Content-Type"]
 	log.Println(val)
 	if ok {
@@ -144,10 +146,10 @@ func ReadPostForm(req *http.Request) map[string]string {
 func ReadHeaders(req *http.Request) map[string]string {
 	b := bytes.NewBuffer([]byte(""))
 	err := req.Header.WriteSubset(b, reqWriteExcludeHeaderDump)
-	if err != nil {
-		return map[string]string{}
-	}
 	headers := map[string]string{}
+	if err != nil {
+		return headers
+	}
 	for _, header := range strings.Split(b.String(), "\n") {
 		values := strings.Split(header, ":")
 		if strings.EqualFold(values[0], "") {
@@ -155,16 +157,21 @@ func ReadHeaders(req *http.Request) map[string]string {
 		}
 		headers[values[0]] = values[1]
 	}
+
 	return headers
 }
 
-func ReadHeadersFromResponse(writer *httptest.ResponseRecorder) map[string]string {
+func ReadHeadersFromResponse(writer *httptest.ResponseRecorder) (map[string]string, []models.YaagAnnotationHeader) {
 	headers := map[string]string{}
+	yaagAnnotations := []models.YaagAnnotationHeader{}
 	for k, v := range writer.Header() {
-		log.Println(k, v)
-		headers[k] = strings.Join(v, " ")
+		if strings.HasPrefix(k, "Yaag-Annotation") {
+			yaagAnnotations = append(yaagAnnotations, annotations.New(k, strings.Join(v, " ")))
+		} else {
+			headers[k] = strings.Join(v, " ")
+		}
 	}
-	return headers
+	return headers, yaagAnnotations
 }
 
 func ReadBody(req *http.Request) *string {
@@ -206,7 +213,7 @@ func After(apiCall *models.ApiCall, writer *httptest.ResponseRecorder, w http.Re
 		apiCall.CurrentPath = strings.Split(r.RequestURI, "?")[0]
 		apiCall.ResponseBody = writer.Body.String()
 		apiCall.ResponseCode = writer.Code
-		apiCall.ResponseHeader = ReadHeadersFromResponse(writer)
+		apiCall.ResponseHeader, apiCall.ResponseAnnotations = ReadHeadersFromResponse(writer)
 		go yaag.GenerateHtml(apiCall)
 	}
 	for key, value := range apiCall.ResponseHeader {

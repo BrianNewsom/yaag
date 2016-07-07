@@ -78,7 +78,7 @@ const Template = `<!DOCTYPE html>
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#">{{.Title}}</a>
-            <p class="navbar-text">Developed by Gophers at <a href="http://betacraft.co">Betacraft</a></p>
+            <p class="navbar-text">Developed by Gophers at <a href="http://briannewsom.co">Betacraft</a></p>
         </div>
             
         <!-- /.navbar-collapse -->
@@ -106,7 +106,17 @@ const Template = `<!DOCTYPE html>
         {{ range $key, $value := .array }}
         <div id="{{$key}}top"  role="tabpanel" class="tab-pane col-md-10">
             {{ range $wrapperKey, $wrapperValue := $value.Calls }}
-                {{ if $wrapperValue.RequestHeader }}
+                {{ if $wrapperValue.ResponseAnnotations }}
+                  <table class="table table-bordered table-striped">
+                    {{ range $wrapperValue.ResponseAnnotations }}
+                      <tr>
+                        <td><b>{{ .Header }}</b></td>
+                        <td> {{ .Value }}</td>
+                      </tr>
+                    {{ end }}
+                  </table>
+                {{ end }}
+                {{ if $wrapperValue.ResponseHeader }}
                 <p> <H4> Request Headers </H4> </p>
                 <table class="table table-bordered table-striped">
                     <tr>
