@@ -3,9 +3,7 @@
 <head lang="en">
     <title> API Documentation </title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <script src="http://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
     <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.css">
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -18,6 +16,17 @@
         .hidden {
             display:none;
         }
+        pre {
+            outline: 1px solid #ccc;
+            padding: 5px; margin: 5px;
+        }
+
+        .string { color: green; }
+        .number { color: darkorange; }
+        .boolean { color: blue; }
+        .null { color: magenta; }
+        .key { color: red; }
+
     </style>
     <style type="text/css">
         pre.prettyprint {
@@ -26,13 +35,33 @@
             padding: 9.5px;
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
     <script>
-        hljs.initHighlightingOnLoad();
-        function toggler(divId) {
-           $("#" + divId).toggle();
+         
+        function syntaxHighlight(json) {
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                var cls = 'number';
+                if (/^"/.test(match)) {
+                    if (/:$/.test(match)) {
+                        cls = 'key';
+                    } else {
+                        cls = 'string';
+                    }
+                } else if (/true|false/.test(match)) {
+                    cls = 'boolean';
+                } else if (/null/.test(match)) {
+                    cls = 'null';
+                }
+                return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
+
+        function spaceJson(json){
+            var validJson = JSON.parse(json);
+            return JSON.stringify(validJson, undefined, 4);
         }
     </script>
+
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -47,7 +76,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#">Core</a>
-            <p class="navbar-text">Developed by Gophers at <a href="http://betacraft.co">Betacraft</a></p>
+            <p class="navbar-text">Developed by Gophers at <a href="http://briannewsom.co">Betacraft</a></p>
         </div>
             
         
@@ -67,9 +96,9 @@
             </div>    
         <ul class="nav nav-pills nav-stacked" role="tablist">
             
-                <li role="presentation"><a href="#0top" role="tab" data-toggle="tab">GET : /</a></li>
+                <li role="presentation"><a href="#0top" role="tab" data-toggle="tab">GET : /this%20does%20stuff</a></li>
             
-                <li role="presentation"><a href="#1top" role="tab" data-toggle="tab">POST : /say_it</a></li>
+                <li role="presentation"><a href="#1top" role="tab" data-toggle="tab">GET : /another</a></li>
             
         <ul>
     </div>
@@ -78,19 +107,20 @@
         <div id="0top"  role="tabpanel" class="tab-pane col-md-10">
             
                 
-                <p> <H4> Request Headers </H4> </p>
-                <table class="table table-bordered table-striped">
-                    <tr>
-                        <th>Key</th>
-                        <th>Value</th>
-                    </tr>
+                  <table class="table table-bordered table-striped">
                     
-                    <tr>
-                        <td>Content-Type</td>
-                        <td>  application/json</td>
-                    </tr>
+                      <tr>
+                        <td><b>Description</b></td>
+                        <td> A test method.  Prints &#34;Hi there, I love &#34; followed by the given path.</td>
+                      </tr>
                     
-                </table>
+                      <tr>
+                        <td><b>Return-Type</b></td>
+                        <td> text/plain</td>
+                      </tr>
+                    
+                  </table>
+                
                 
                 
                 
@@ -100,7 +130,20 @@
                 
                 
                 <p> <H4> Response Body </H4> </p>
-                <pre class="prettyprint lang-json">Hi there, I love !</pre>
+                <pre class="prettyprint" id="response-body-0-0">Hi there, I love this does stuff!</pre>
+                <script>
+                     
+                    var responseHeader ={};
+
+                    if (responseHeader["Content-Type"] === "application/json"){
+                        try {
+                            var jsonStr = spaceJson("Hi there, I love this does stuff!");
+                            document.getElementById('response-body-0-0').innerHTML = syntaxHighlight(jsonStr);
+                        } catch (e) {
+                             
+                        }
+                    }
+                </script>
                 
                 <hr>
             
@@ -109,19 +152,20 @@
         <div id="1top"  role="tabpanel" class="tab-pane col-md-10">
             
                 
-                <p> <H4> Request Headers </H4> </p>
-                <table class="table table-bordered table-striped">
-                    <tr>
-                        <th>Key</th>
-                        <th>Value</th>
-                    </tr>
+                  <table class="table table-bordered table-striped">
                     
-                    <tr>
-                        <td>Content-Type</td>
-                        <td>  application/json</td>
-                    </tr>
+                      <tr>
+                        <td><b>Description</b></td>
+                        <td> A test method.  Prints &#34;Hi there, I love &#34; followed by the given path.</td>
+                      </tr>
                     
-                </table>
+                      <tr>
+                        <td><b>Return-Type</b></td>
+                        <td> text/plain</td>
+                      </tr>
+                    
+                  </table>
+                
                 
                 
                 
@@ -129,26 +173,28 @@
                 <p><h4> Response Code</h4></p>
                 <pre class="prettyprint lang-json">200</pre>
                 
-                <p><h4> Response Headers</h4></p>
-                <table class="table table-bordered table-striped">
-                    <tr>
-                        <th>Key</th>
-                        <th>Value</th>
-                    </tr>
-                    
-                    <tr>
-                        <td>Test</td>
-                        <td> tesasasdasd</td>
-                    </tr>
-                    
-                </table>
                 
+                <p> <H4> Response Body </H4> </p>
+                <pre class="prettyprint" id="response-body-1-0">Hi there, I love another!</pre>
+                <script>
+                     
+                    var responseHeader ={};
+
+                    if (responseHeader["Content-Type"] === "application/json"){
+                        try {
+                            var jsonStr = spaceJson("Hi there, I love another!");
+                            document.getElementById('response-body-1-0').innerHTML = syntaxHighlight(jsonStr);
+                        } catch (e) {
+                             
+                        }
+                    }
+                </script>
                 
                 <hr>
             
         </div>
         
-    </div>   
+    </div>
 </div>
 </div>
 <hr>

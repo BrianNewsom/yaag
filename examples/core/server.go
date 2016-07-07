@@ -2,14 +2,18 @@ package main
 
 import (
 	"fmt"
-	"github.com/betacraft/yaag/middleware"
-	"github.com/betacraft/yaag/yaag"
+	"github.com/briannewsom/yaag/annotations"
+	"github.com/briannewsom/yaag/middleware"
+	"github.com/briannewsom/yaag/yaag"
 	"io/ioutil"
 	"net/http"
 	"strings"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
+	annotations.AddDescription(w, "A test method.  Prints \"Hi there, I love \" followed by the given path.")
+	annotations.AddReturnType(w, "text/plain")
+	annotations.Add(w, "Custom-Header", "True")
 	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
 }
 
