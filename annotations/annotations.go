@@ -1,6 +1,7 @@
 package annotations
 
 import (
+	"github.com/briannewsom/yaag/yaag"
 	"github.com/briannewsom/yaag/yaag/models"
 	"net/http"
 	"strings"
@@ -15,14 +16,16 @@ func New(rawHeader, value string) models.YaagAnnotationHeader {
 	}
 }
 
+func Add(w http.ResponseWriter, key, value string) {
+	if yaag.IsOn() {
+		w.Header().Add("Yaag-Annotation-"+key, value)
+	}
+}
+
 func AddDescription(w http.ResponseWriter, desc string) {
-	w.Header().Add("Yaag-Annotation-Description", desc)
+	Add(w, "Description", desc)
 }
 
 func AddReturnType(w http.ResponseWriter, returnType string) {
-	w.Header().Add("Yaag-Annotation-Return-Type", returnType)
-}
-
-func Add(w http.ResponseWriter, key, value string) {
-	w.Header().Add("Yaag-Annotation-"+key, value)
+	Add(w, "Return-Type", returnType)
 }

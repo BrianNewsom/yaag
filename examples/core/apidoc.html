@@ -96,9 +96,7 @@
             </div>    
         <ul class="nav nav-pills nav-stacked" role="tablist">
             
-                <li role="presentation"><a href="#0top" role="tab" data-toggle="tab">GET : /this%20does%20stuff</a></li>
-            
-                <li role="presentation"><a href="#1top" role="tab" data-toggle="tab">GET : /another</a></li>
+                <li role="presentation"><a href="#0top" role="tab" data-toggle="tab">GET : /test</a></li>
             
         <ul>
     </div>
@@ -110,13 +108,18 @@
                   <table class="table table-bordered table-striped">
                     
                       <tr>
-                        <td><b>Description</b></td>
-                        <td> A test method.  Prints &#34;Hi there, I love &#34; followed by the given path.</td>
+                        <td><b>Return-Type</b></td>
+                        <td> text/plain</td>
                       </tr>
                     
                       <tr>
-                        <td><b>Return-Type</b></td>
-                        <td> text/plain</td>
+                        <td><b>Custom-Header</b></td>
+                        <td> True</td>
+                      </tr>
+                    
+                      <tr>
+                        <td><b>Description</b></td>
+                        <td> A test method.  Prints &#34;Hi there, I love &#34; followed by the given path.</td>
                       </tr>
                     
                   </table>
@@ -130,60 +133,15 @@
                 
                 
                 <p> <H4> Response Body </H4> </p>
-                <pre class="prettyprint" id="response-body-0-0">Hi there, I love this does stuff!</pre>
+                <pre class="prettyprint" id="response-body-0-0">Hi there, I love test!</pre>
                 <script>
                      
                     var responseHeader ={};
 
                     if (responseHeader["Content-Type"] === "application/json"){
                         try {
-                            var jsonStr = spaceJson("Hi there, I love this does stuff!");
+                            var jsonStr = spaceJson("Hi there, I love test!");
                             document.getElementById('response-body-0-0').innerHTML = syntaxHighlight(jsonStr);
-                        } catch (e) {
-                             
-                        }
-                    }
-                </script>
-                
-                <hr>
-            
-        </div>
-        
-        <div id="1top"  role="tabpanel" class="tab-pane col-md-10">
-            
-                
-                  <table class="table table-bordered table-striped">
-                    
-                      <tr>
-                        <td><b>Description</b></td>
-                        <td> A test method.  Prints &#34;Hi there, I love &#34; followed by the given path.</td>
-                      </tr>
-                    
-                      <tr>
-                        <td><b>Return-Type</b></td>
-                        <td> text/plain</td>
-                      </tr>
-                    
-                  </table>
-                
-                
-                
-                
-                
-                <p><h4> Response Code</h4></p>
-                <pre class="prettyprint lang-json">200</pre>
-                
-                
-                <p> <H4> Response Body </H4> </p>
-                <pre class="prettyprint" id="response-body-1-0">Hi there, I love another!</pre>
-                <script>
-                     
-                    var responseHeader ={};
-
-                    if (responseHeader["Content-Type"] === "application/json"){
-                        try {
-                            var jsonStr = spaceJson("Hi there, I love another!");
-                            document.getElementById('response-body-1-0').innerHTML = syntaxHighlight(jsonStr);
                         } catch (e) {
                              
                         }
